@@ -57,21 +57,21 @@ class AutoLoginToken extends AbstractToken
     /**
      * @see Symfony\Component\Security\Core\Authentication\Token\AbstractToken::serialize()
      */
-    public function serialize()
+    public function __serialize(): array
     {
-        return serialize(array(
+        return [
             $this->key,
             $this->providerKey,
             parent::serialize(),
-        ));
+        ];
     }
 
     /**
      * @see Symfony\Component\Security\Core\Authentication\Token\AbstractToken::unserialize()
      */
-    public function unserialize($str)
+    public function __unserialize(array $data): void
     {
-        [$this->key, $this->providerKey, $parentStr] = unserialize($str);
-        parent::unserialize($parentStr);
+        [$this->key, $this->providerKey, $parentData] = $data;
+        parent::__unserialize($parentData);
     }
 }

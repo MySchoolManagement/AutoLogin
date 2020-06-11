@@ -6,6 +6,7 @@ use Jmikola\AutoLogin\Authentication\Token\AutoLoginToken;
 use Jmikola\AutoLogin\User\AutoLoginUserProviderInterface;
 use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -54,7 +55,7 @@ class AutoLoginProvider implements AuthenticationProviderInterface
     public function authenticate(TokenInterface $token)
     {
         if (!$this->supports($token)) {
-            return;
+            throw new AuthenticationException('AutoLoginProvider does not support this token');
         }
 
         $user = $token->getUser();
